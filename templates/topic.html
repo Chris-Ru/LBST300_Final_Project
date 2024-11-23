@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+{% block content %}
+    <h2>{{ topic.title }}</h2>
+    <p>{{ topic.description }}</p>
+    <section>
+        <h3>Reflections</h3>
+        <p>{{ topic.reflections | default("No reflections yet.") }}</p>
+        <form method="POST" action="/add_reflection/{{ topic.id }}">
+            <textarea name="reflection" rows="3" placeholder="Add your reflection here..."></textarea>
+            <button type="submit">Submit Reflection</button>
+        </form>
+    </section>
+    <a href="/">Back to Topics</a>
+{% endblock %}
