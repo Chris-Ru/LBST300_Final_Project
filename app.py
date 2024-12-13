@@ -281,11 +281,11 @@ topics = {
     ]
 }
 
-@app.route('/')
+@app.route('/LBST300_Final/')
 def home():
     return render_template('home.html', topics=topics)
 
-@app.route('/topic/<topic_name>', methods=['GET', 'POST'])
+@app.route('/LBST300_Final/topic/<topic_name>', methods=['GET', 'POST'])
 def topic(topic_name):
     if topic_name not in topics:
         return "Topic not found", 404
@@ -297,15 +297,6 @@ def topic(topic_name):
 
     return render_template('topic.html', topic_name=topic_name, posts=topics[topic_name])
 
-@app.route('/new_topic', methods=['GET', 'POST'])
-def new_topic():
-    if request.method == 'POST':
-        topic_name = request.form['topic_name']
-        if topic_name and topic_name not in topics:
-            topics[topic_name] = []
-            return redirect(url_for('home'))
-
-    return render_template('new_topic.html')
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=5001)
