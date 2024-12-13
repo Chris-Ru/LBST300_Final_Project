@@ -1,32 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<script>
-    // Get the button:
-    let mybutton = document.getElementById("myBtn");
-
-    // When the user scrolls down 20px from the top of the document, show the button
-    window.onscroll = function() {scrollFunction()};
-
-    function scrollFunction() {
-    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-        mybutton.style.display = "block";
-    } else {
-        mybutton.style.display = "none";
-    }
-    }
-
-    // When the user clicks on the button, scroll to the top of the document
-    function topFunction() {
-    document.body.scrollTop = 0; // For Safari
-    document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
-    }
-</script>
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Discussion Topic</title>
+    <title>Discussion Board</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -49,14 +26,20 @@
             border-radius: 8px;
             overflow: hidden;
         }
-        .topic-header {
+        .topic {
             padding: 1rem 1.5rem;
-            background-color: #f0f0f5;
-            border-bottom: 2px solid #ddd;
+            border-bottom: 1px solid #ddd;
         }
-        .topic-header h2 {
+        .topic h2 {
             margin: 0;
             color: #333;
+        }
+        .topic a {
+            text-decoration: none;
+            color: #4CAF50;
+        }
+        .topic a:hover {
+            text-decoration: underline;
         }
         .post {
             padding: 1rem 1.5rem;
@@ -88,34 +71,47 @@
         button:hover {
             background-color: #45a049;
         }
-        a{
-            color: blue;
-            font-size: 20px;
-        }
     </style>
 </head>
 <body>
     <header>
-        <h1><a href="/">Return to Home</a><br>{{ topic_name }}</h1>
+        <h1>Welcome to the Discussion Board</h1>
     </header>
     <div class="container">
-        {% for post in posts %}
-        <div class="post">
-            <p><span class="post-author">{{ post.author }}</span>: {{ post.content }}</p>
+        <!-- Home Page -->
+        <div id="home">
+            {% for topic, posts in topics.items() %}
+            <div class="topic">
+                <h2><a href="/topic/{{ topic }}">{{ topic }}</a></h2>
+            </div>
+            {% endfor %}
         </div>
-        {% endfor %}
 
-        <form method="POST">
-            <input type="text" name="author" placeholder="Your name" required>
-            <textarea name="content" placeholder="Your comment" required></textarea>
-            <button type="submit">Post</button>
-        </form>
-        <div style="text-align: center;">
-            <button onclick="topFunction()" id="myBtn" title="Go to top">Return to the top</button>
+        <!-- Topic Page -->
+        <div id="topic">
+            <div class="topic">
+                <h2>{{ topic_name }}</h2>
+            </div>
+            {% for post in posts %}
+            <div class="post">
+                <p><span class="post-author">{{ post.author }}</span>: {{ post.content }}</p>
+            </div>
+            {% endfor %}
+
+            <form method="POST">
+                <input type="text" name="author" placeholder="Your name" required>
+                <textarea name="content" placeholder="Your comment" required></textarea>
+                <button type="submit">Post</button>
+            </form>
+        </div>
+
+        <!-- New Topic Page -->
+        <div id="new_topic">
+            <form method="POST">
+                <input type="text" name="topic_name" placeholder="New Topic Name" required>
+                <button type="submit">Create Topic</button>
+            </form>
         </div>
     </div>
-        <div style="text-align:center;">
-            
-        </div>
 </body>
 </html>
